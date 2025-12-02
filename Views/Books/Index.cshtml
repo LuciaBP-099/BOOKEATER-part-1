@@ -1,0 +1,74 @@
+﻿@model IEnumerable<BookEater.Models.LibraryEntry>
+
+@{
+    ViewData["Title"] = "My Library";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-end mb-5 border-bottom pb-3">
+        <div>
+            <h1 class="display-4 fw-bold mb-0" style="font-family: Georgia, serif;">My Library</h1>
+            <p class="text-muted mb-0">Your personal collection.</p>
+        </div>
+        <a asp-controller="Books" asp-action="Create" class="btn btn-dark rounded-pill px-4">Add New Book</a>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="text-center py-5 text-muted">
+            <span style="font-size: 3rem; opacity: 0.5;">📚</span>
+            <p class="fs-5 mt-3">Your shelves are empty.</p>
+            <a asp-controller="Books" asp-action="Create" class="text-dark fw-bold text-decoration-underline">Add your first book</a>
+        </div>
+    }
+    else
+    {
+        @foreach (var group in Model.GroupBy(x => string.IsNullOrEmpty(x.ListName) ? "General Collection" : x.ListName))
+        {
+            <div class="mb-5">
+                <h3 class="mb-3" style="font-family: Georgia, serif; color: #333;">
+                    @(group.Key == "General Collection" ? "📖" : "🔖") @group.Key
+                </h3>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="text-uppercase small text-muted border-bottom-2">
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Genre</th>
+                                <th>Rating</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in group)
+                            {
+                                <tr>
+                                    <td class="fw-bold">@item.Book.Title</td>
+                                    <td class="text-muted fst-italic">@item.Book.Author</td>
+                                    <td class="small text-secondary">@item.Book.Genre</td>
+                                    <td class="text-warning">@item.Book.Rating ★</td>
+                                    <td class="text-end">
+
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-controller="Books" asp-action="WriteReview" asp-route-id="@item.Book.BookId"
+                                               class="btn btn-outline-dark" title="Write Review">Review</a>
+                                            <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Book.BookId"
+                                               class="btn btn-outline-secondary">Info</a>
+                                            <a asp-controller="Books" asp-action="Edit" asp-route-id="@item.Book.BookId"
+                                               class="btn btn-outline-secondary">Edit</a>
+                                            <a asp-controller="Books" asp-action="Delete" asp-route-id="@item.Book.BookId"
+                                               class="btn btn-outline-danger">Del</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
+</div>
