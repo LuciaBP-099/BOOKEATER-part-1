@@ -26,7 +26,8 @@ The project uses a SQL Server database hosted on Microsoft Azure. The schema inc
 Users: Stores information about the users of the application.
 Books: Contains details about the books.
 UserBooks: Stores the relations books to users.
+Reviews: Stores the reviews of a book.
 The database model can be seen in the diagram below, I created it using SQL Server Management Studio (SSMS):
-<img width="757" height="415" alt="Database" src="https://github.com/user-attachments/assets/782541e7-d6b2-47a1-9158-2fe9fd39f769" />
+<img width="915" height="634" alt="image" src="https://github.com/user-attachments/assets/99cb1a0f-26a0-4aca-ae3f-c5523bec12dd" />
 
 
